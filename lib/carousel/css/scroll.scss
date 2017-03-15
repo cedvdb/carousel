@@ -1,0 +1,21 @@
+// scroll style, this file is to style the scroll (which works on webkit browsers)
+// disable the scroll for browsers where styling the scroller isn't supported
+.carousel:not(*:root) {
+	overflow-x: scroll;
+}
+// only on chrome
+.carousel::-webkit-scrollbar {
+    width: 2px;
+    height: 6px;
+    background-color: #F5F5F5;
+}
+
+.carousel::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgba(2, 2, 2, 0.55);
+}
+
+.carousel::-webkit-scrollbar-track {
+    background-color: rgba(37, 38, 39, 0.9);
+    width: 11px;
+}

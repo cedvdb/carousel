@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css?family=Ubuntu');
+@import url('https://fonts.googleapis.com/css?family=Diplomata+SC');
+@import url('https://fonts.googleapis.com/css?family=Audiowide|Baloo+Bhaina|Black+Ops+One|Comfortaa|Diplomata+SC|Fascinate+Inline|Monoton|Righteous|Ruslan+Display');
+
+body {
+    background: #111;
+    color: white;
+    font-size: 6rem;
+    font-family: 'Ubuntu', sans-serif;
+    font-family: 'Diplomata SC', cursive;
+    font-family: 'Diplomata SC', cursive;
+    font-family: 'Comfortaa', cursive;
+    font-family: 'Baloo Bhaina', cursive;
+    font-family: 'Righteous', cursive;
+    font-family: 'Audiowide', cursive;
+    font-family: 'Fascinate Inline', cursive;
+    font-family: 'Ruslan Display', cursive;
+    font-family: 'Black Ops One', cursive;
+    font-family: 'Monoton', cursive;
+}
+
+.flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ctnr{
+    height: 25rem;
+    margin-top: 5rem;
+}
+
+.top{
+    margin-top: 5rem; 
+}
+.bottom{
+    padding-top: 5rem;
+    font-size: 4rem;
+    margin: auto;
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+}
+
