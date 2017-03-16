@@ -1,6 +1,6 @@
 
 export const STRUCTURE_BASE = 
-`<div id="carouselCtnr" class=" carouselCtnr">
+`<div class=" carouselCtnr">
 
 	<div class="carousel-arrowCtnr">
 		<div class="carousel-arrows carousel-arrow-left">

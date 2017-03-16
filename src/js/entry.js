@@ -13,5 +13,5 @@ let config = {
 						{url: "http://www.planwallpaper.com/static/images/desktop-year-of-the-tiger-images-wallpaper.jpg"}
 					]
 	};
-let elem = document.getElementById('carouselCtnr')
+let elem = document.getElementById('ctnr')
 new Carousel(elem, config);

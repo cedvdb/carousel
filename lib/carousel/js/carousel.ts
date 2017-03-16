@@ -1,14 +1,20 @@
+import { CarouselEventHandler } from './carousel-event-handler';
+import { EventHandler } from './event-handler';
+import { Controls } from './controls';
+import { CarouselEventEmitter } from './carousel-event-emitter';
+import { Action } from './action';
+import { Listener } from './listener';
 import { Image } from './image';
 import { CarouselConfigurator } from './carousel-configurator';
 import { Builder } from './builder';
-import { CarouselEventHandler } from "./carousel-event-handler"
 import "../css/carousel.scss";
 
-export class Carousel{
-	private ctnr;
+export class Carousel implements Listener{
 	public items: Array<HTMLElement> = [];
-	private config;
+	private config: CarouselConfigurator;
 	private builder;
+	private controls:Controls;
+	private eventHandler: EventHandler;
 
 	constructor(wrapper: HTMLElement, config?: CarouselConfigurator){
 		if(! wrapper ) throw Error("A target element is required in the constructor.");
@@ -18,15 +24,42 @@ export class Carousel{
 
 	// creates the carousel
 	private create(wrapper:HTMLElement){
-		// if elements are supplied add them, if images are supplied add them
+		this.addImages(wrapper);
+		this.builder = new Builder();
+		// build the carousel, returns the controllers 
+		this.controls = this.builder.makeCarousel(wrapper, this.items);
+		this.addEventsEmitter();
+		this.addEventHandler();
+	}
+
+	private addImages(wrapper){
+		// if elements are supplied add them, if images are supplied add them as well
 		// TODO: this is a bug in typescript with a fix in the way, this ugly cast should be removed
 		this.pushElements(<HTMLCollectionOf<HTMLElement>>wrapper.children);
 		// images are converted to HTMLElement
 		this.pushImages(this.config.images);
-		this.builder = new Builder();
-		this.ctnr = this.builder.makeCarousel(wrapper, this.items)
-		//new CarouselEventHandler(this.ctnr);
 	}
+
+	private addEventsEmitter(){
+		let emitter;
+		if(this.config.eventEmitter)
+			emitter = this.config.eventEmitter();
+		else
+			emitter = new CarouselEventEmitter();
+		emitter.setup(this, this.controls);
+	}
+
+	private addEventHandler(){
+		if(this.config.eventHandler)
+			this.eventHandler = this.config.eventHandler;
+		else
+			this.eventHandler = new CarouselEventHandler();
+		this.eventHandler.setup(this.controls)
+	}
+
+	listen(action: Action) {
+    console.log(action)
+  }
 
 	// push image url
 	pushElement(elem:HTMLElement){
@@ -65,4 +98,6 @@ export class Carousel{
 	private handleError(){
 		throw new Error(' wrong configuration for the Carousel. Check doc')
 	}
+
+  
 }
