@@ -14,12 +14,12 @@ export class CarouselEventHandler implements EventHandler{
 		this.controls = controls;
 	}
 
-	onScroll(val:number){
+	onScroll(direction:number){
 		// if not zoomed we scroll else we slide
 		if(!this._zoomer){
-			this.controls.carousel.scrollLeft += val;
+			this.controls.carousel.scrollLeft += direction * 100; 
 		}else{
-			this.slide(val);
+			this.slide(direction);
 		}
 		this.refreshArrows();
 	}
@@ -27,13 +27,14 @@ export class CarouselEventHandler implements EventHandler{
 	onArrowDown(direction: number){
 		// we only get the direction so when we have it we multiply it for 
 		// faster scroll
-		this.onScroll(direction * 100)
+		this.onScroll(direction)
 	}
 
 	onArrowUp(direction: number){}
 
 	onImageClick(imgCtnr:HTMLElement) {
 		let carou = this.controls.carousel;
+		this.controls.closeDiv.style.display = "block";
 		//saving scroll so when we unzoom we can re-establish it
 		this.scrollLeft = carou.scrollLeft;
 		// putting the scrollLeft to 0 so when we are zoomed the image is centered.

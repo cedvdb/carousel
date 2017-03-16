@@ -2,7 +2,7 @@ import { Controls } from './controls';
 
 export interface EventHandler{
 	setup(controls:Controls);
-	onScroll(value:number);
+	onScroll(direction:number);
 	onImageClick(imgCtnr:HTMLElement);
 	onZoomClosed();
 	onArrowDown(direction: number);

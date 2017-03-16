@@ -1,3 +1,4 @@
+import { mapper } from './function-mapper';
 import { CarouselEventHandler } from './carousel-event-handler';
 import { EventHandler } from './event-handler';
 import { Controls } from './controls';
@@ -58,7 +59,8 @@ export class Carousel implements Listener{
 	}
 
 	listen(action: Action) {
-    console.log(action)
+		// this is weird but it's to allow to give custom mappers if needed
+    this.eventHandler[mapper[action.type]](action.payload);
   }
 
 	// push image url

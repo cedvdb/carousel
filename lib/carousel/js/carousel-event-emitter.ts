@@ -6,9 +6,6 @@ import { Listener } from './listener';
 
 // this class add event to the different elements then dispatch them to the listenner(carousel).
 export class CarouselEventEmitter implements EventEmitter {
-
-
-
 	private listener; // listen to events
 	private ctnr;
 	private carousel; // the moving piece
@@ -33,6 +30,7 @@ export class CarouselEventEmitter implements EventEmitter {
 		this.addImageClickEvent();
 		this.addArrowScroll(this.arrows[0], "left");
 		this.addArrowScroll(this.arrows[1], "right");
+		this.addCloseEvent();
 	}
 
 	private addHScroll(elem){
@@ -66,7 +64,7 @@ export class CarouselEventEmitter implements EventEmitter {
 
 	private addCloseEvent(){
 		this.closeDiv.addEventListener("click", e => {
-			this.listener.listen({type: Events.CLOSE_ZOOMER});
+			this.listener.listen({type: Events.CLOSE_ZOOMER, payload: null});
 		});
 	}
 
