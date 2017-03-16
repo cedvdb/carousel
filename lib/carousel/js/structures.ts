@@ -21,7 +21,7 @@ export const STRUCTURE_IMAGE_CTNR =
 `<div class="carousel-imgCtnr">
 	<div class="carousel-overlay"></div>
 </div>`
-
+// just to have an idea of the final
 const structureFull = `
 
 <div id="carouselCtnr" class=" carouselCtnr">
@@ -30,7 +30,7 @@ const structureFull = `
 		<div class="carousel-arrows carousel-arrow-left">
 			<i class="fa fa-angle-left"></i>
 		</div>
-		<div class="carousel-arrows carousel-arrow-right" style="display: flex;">
+		<div class="carousel-arrows carousel-arrow-right">
 				<i class="fa fa-angle-right"></i>
 		</div>
 	</div>

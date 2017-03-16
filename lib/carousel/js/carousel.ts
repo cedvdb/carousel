@@ -18,6 +18,7 @@ export class Carousel implements Listener{
 	private eventHandler: EventHandler;
 
 	constructor(wrapper: HTMLElement, config?: CarouselConfigurator){
+		if(! window ) return;
 		if(! wrapper ) throw Error("A target element is required in the constructor.");
 		this.config = config;
 		this.create(wrapper);

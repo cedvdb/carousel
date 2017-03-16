@@ -11,7 +11,6 @@ export class CarouselEventEmitter implements EventEmitter {
 	private carousel; // the moving piece
 	private arrows; // controlling arrows
 	private closeDiv; // X icon to close when zoomed
-	private interval; // for the arrows event listener (moving/scroll)
 
 
 	constructor(){}
@@ -72,19 +71,12 @@ export class CarouselEventEmitter implements EventEmitter {
 		dir = (dir === "right" ? 1 : -1);
 
 		arrow.addEventListener("mousedown", () => {
-			// if the zoomer isn't on we scroll else we slide
-			// interval set for debouncing / prevent freeze
-			this.interval = setInterval(() => {
-				this.listener.listen({type: Events.ARROW_DOWN, payload: dir});
-			}, 40);
+			this.listener.listen({type: Events.ARROW_DOWN, payload: dir});
 		});
-
 		arrow.addEventListener("mouseup", () => {
-			clearInterval(this.interval);
 			this.listener.listen({type: Events.ARROW_UP, payload: dir});
 		});
 		arrow.addEventListener("mouseleave", () => {
-			clearInterval(this.interval);
 			this.listener.listen({type: Events.ARROW_UP, payload: dir});
 		});
 	}

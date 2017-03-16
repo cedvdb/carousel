@@ -7,6 +7,7 @@ export class CarouselEventHandler implements EventHandler{
 	private _zoomer; // if it's zoomed (fullscreen)
 	private _activeElement; // when zoomed, the element in the foreground
 	private scrollLeft; // memorize scroll position 
+	private interval; // for the arrows event listener (moving/scroll)
 
 	constructor(){}
 
@@ -16,6 +17,8 @@ export class CarouselEventHandler implements EventHandler{
 
 	onScroll(direction:number){
 		// if not zoomed we scroll else we slide
+		// we only get the direction so when we have it we multiply it for 
+		// faster scroll
 		if(!this._zoomer){
 			this.controls.carousel.scrollLeft += direction * 100; 
 		}else{
@@ -25,16 +28,22 @@ export class CarouselEventHandler implements EventHandler{
 	}
 
 	onArrowDown(direction: number){
-		// we only get the direction so when we have it we multiply it for 
-		// faster scroll
-		this.onScroll(direction)
+		// when not zoomed we use an interval so we keep scrolling
+		// when mouse down
+		if(this.zoomer)
+			this.onScroll(direction)
+		else
+			this.interval = setInterval(() => {
+				this.onScroll(direction);
+			}, 40);
 	}
 
-	onArrowUp(direction: number){}
+	onArrowUp(direction: number){
+		clearInterval(this.interval);
+	}
 
 	onImageClick(imgCtnr:HTMLElement) {
 		let carou = this.controls.carousel;
-		this.controls.closeDiv.style.display = "block";
 		//saving scroll so when we unzoom we can re-establish it
 		this.scrollLeft = carou.scrollLeft;
 		// putting the scrollLeft to 0 so when we are zoomed the image is centered.
@@ -42,13 +51,12 @@ export class CarouselEventHandler implements EventHandler{
 		// but I didn't find a solution and this is an easy and clean fix
 		carou.scrollLeft = 0;
 		this.activeElement = imgCtnr;
-		this.zoomer = true
+		this.zoomer = true;
+		this.refreshArrows();
   }
 
   onZoomClosed() {
-		this.controls.closeDiv.style.display = "none";
 		this.zoomer = false;
-		this.activeElement = undefined;
 		// re-establishing scroll
 		this.controls.carousel.scrollLeft = this.scrollLeft;
   }
@@ -68,7 +76,29 @@ export class CarouselEventHandler implements EventHandler{
 		this.refreshArrows();
 	}
 
+	// hides / show arrows depending if we are at the end / beginning 
+	// of the carousel
 	private refreshArrows(){
+		if(this.zoomer)
+			this.refreshArrowsZoomed();
+		else
+			this.refreshArrowsUnzoomed();
+	}
+
+	private refreshArrowsZoomed(){
+		let prev = this.activeElement.previousElementSibling;
+		let next = this.activeElement.nextElementSibling;
+		if(prev)
+			this.controls.arrows[0].style.display = "flex";
+		else
+			this.controls.arrows[0].style.display = "none";
+		if(next)
+			this.controls.arrows[1].style.display = "flex";
+		else
+			this.controls.arrows[1].style.display = "none";
+	}
+
+	private refreshArrowsUnzoomed(){
 		if(this.controls.carousel.scrollLeft === 0)
 			this.controls.arrows[0].style.display = "none";
 		else
@@ -101,10 +131,15 @@ export class CarouselEventHandler implements EventHandler{
 
 	set zoomer(bool:boolean){
 		let ctnr = this.controls.ctnr;
-		if(bool && ctnr.className.indexOf("zoomer") < 0)
+		if(bool && ctnr.className.indexOf("zoomer") < 0){
 			ctnr.className += " zoomer";
-		else
-			this.replaceClass(ctnr, "zoomer")
+			this.controls.closeDiv.style.display = "block";
+		}
+		else{
+			this.controls.closeDiv.style.display = "none";
+			this.replaceClass(ctnr, "zoomer");
+			this.activeElement = undefined;
+		}
 		this._zoomer = bool;
 	}
 
