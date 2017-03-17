@@ -1,11 +1,11 @@
-import { EventEmitter } from './event-emitter';
-import { Events } from './events';
-import { Controls } from './controls';
-import { Listener } from './listener';
+import { Events } from './utils/events';
+import { IEventEmitter } from './interfaces/event-emitter.interface';
+import { IControls } from './interfaces/controls.interface';
+import { IListener } from './interfaces/listener.interface';
 
 
 // this class add event to the different elements then dispatch them to the listenner(carousel).
-export class CarouselEventEmitter implements EventEmitter {
+export class DefaultEventEmitter implements IEventEmitter {
 	private listener; // listen to events
 	private ctnr;
 	private carousel; // the moving piece
@@ -14,7 +14,7 @@ export class CarouselEventEmitter implements EventEmitter {
 
 
 
-	setup(listener: Listener, controls: Controls) {
+	setup(listener: IListener, controls: IControls) {
 		this.listener = listener;
 		this.ctnr = controls.ctnr;
 		this.carousel = controls.carousel

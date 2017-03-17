@@ -1,23 +1,22 @@
-import { Events } from './events';
-import { EventEmitter } from './event-emitter';
+import { Events } from './utils/events';
+import { IAction } from './interfaces/action.interface';
+import { DefaultEventEmitter } from './default-event-emitter';
+import { DefaultEventHandler } from './default-event-handler';
+import { DefaultLoader } from './default-loader';
 import { ILoader } from './interfaces/loader.interface';
-import { Loader } from './loader';
-import { mapper } from './function-mapper';
-import { CarouselEventHandler } from './carousel-event-handler';
-import { EventHandler } from './event-handler';
-import { Controls } from './controls';
-import { CarouselEventEmitter } from './carousel-event-emitter';
-import { Action } from './action';
-import { Listener } from './listener';
-import { CarouselConfigurator } from './carousel-configurator';
+import { IEventEmitter } from './interfaces/event-emitter.interface';
+import { IEventHandler } from './interfaces/event-handler.interface';
+import { IListener } from './interfaces/listener.interface';
+
 import { Builder } from './builder';
 import "../css/carousel.scss";
+import { mapper } from "./utils/function-mapper";
 
-export class Carousel extends Builder implements Listener{
-	private config: CarouselConfigurator;
-	private handler: EventHandler;
-	private emitter:EventEmitter;
-	private loader:ILoader;
+export class Carousel extends Builder implements IListener{
+	// private config: CarouselConfigurator;
+	private handler: IEventHandler;
+	private emitter: IEventEmitter;
+	private loader: ILoader;
 
 	constructor(){
 		super();
@@ -28,10 +27,10 @@ export class Carousel extends Builder implements Listener{
 	createDefault(wrapper:HTMLElement){
 		if(! wrapper ) throw Error("A target element is required in create.");
 		this.makeCarousel(wrapper);
-		this.loader = new Loader();
-		this.handler = new CarouselEventHandler();
+		this.loader = new DefaultLoader();
+		this.handler = new DefaultEventHandler();
 		this.handler.setup(this.controls)
-		this.emitter = new CarouselEventEmitter();
+		this.emitter = new DefaultEventEmitter();
 		this.emitter.setup(this, this.controls);
 		return this;
 	}
@@ -46,7 +45,7 @@ export class Carousel extends Builder implements Listener{
 		return this;
 	}
 
-	listen(action: Action) {
+	listen(action: IAction) {
 		// this is weird but it's to allow to give custom mappers if needed
     this.handler[mapper[action.type]](action.payload);
   }

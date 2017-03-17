@@ -1,6 +1,8 @@
-import { Controls } from './controls';
-import { Utils } from './utils';
-import { STRUCTURE_BASE, STRUCTURE_IMAGE_CTNR } from './structures';
+import { STRUCTURE_IMAGE_CTNR } from './utils/structures';
+import { IControls } from './interfaces/controls.interface';
+import { STRUCTURE_BASE } from './utils/structures';
+import { Utils } from './utils/utils';
+
 
 export class Builder{
 	private carousel:HTMLElement;
@@ -60,7 +62,7 @@ export class Builder{
 		return imgCtnr;
 	}
 
-	get controls():Controls{
+	get controls():IControls{
 		return {
 			carousel: this.carousel, 
 			ctnr: this.structure,

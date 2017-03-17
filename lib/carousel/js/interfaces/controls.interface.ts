@@ -1,4 +1,4 @@
-export interface Controls{
+export interface IControls{
 	ctnr:HTMLElement;
 	carousel:HTMLElement;
 	arrows:NodeListOf<HTMLElement>; 

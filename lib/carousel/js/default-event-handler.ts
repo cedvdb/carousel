@@ -1,14 +1,15 @@
-import { EventHandler } from './event-handler';
-import { Controls } from './controls';
+import { IEventHandler } from './interfaces/event-handler.interface';
+import { IControls } from './interfaces/controls.interface';
+
 import { Builder } from './builder';
 
-export class CarouselEventHandler implements EventHandler{
+export class DefaultEventHandler implements IEventHandler{
 	private controls;
 	private _zoomer; // if it's zoomed (fullscreen)
 	private _activeElement; // when zoomed, the element in the foreground
 	private interval; // for the arrows event listener (moving/scroll)
 
-	setup(controls:Controls){
+	setup(controls:IControls){
 		this.controls = controls;
 	}
 

@@ -1,7 +1,7 @@
-import { Controls } from './controls';
+import { IControls } from './controls.interface';
 
-export interface EventHandler{
-	setup(controls:Controls);
+export interface IEventHandler{
+	setup(controls:IControls);
 	onScroll(direction:number);
 	onElementAdded(item:HTMLElement);
 	onImageClick(imgCtnr:HTMLElement);
