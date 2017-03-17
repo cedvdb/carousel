@@ -1,5 +1,6 @@
 
-export interface Image{
+export interface Item
+{
 	url: string;
 	description?: string;
 }

@@ -13,7 +13,6 @@ export class CarouselEventEmitter implements EventEmitter {
 	private closeDiv; // X icon to close when zoomed
 
 
-	constructor(){}
 
 	setup(listener: Listener, controls: Controls) {
 		this.listener = listener;

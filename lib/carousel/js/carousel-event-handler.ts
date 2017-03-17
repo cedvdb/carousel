@@ -6,10 +6,7 @@ export class CarouselEventHandler implements EventHandler{
 	private controls;
 	private _zoomer; // if it's zoomed (fullscreen)
 	private _activeElement; // when zoomed, the element in the foreground
-	private scrollLeft; // memorize scroll position 
 	private interval; // for the arrows event listener (moving/scroll)
-
-	constructor(){}
 
 	setup(controls:Controls){
 		this.controls = controls;
@@ -43,9 +40,11 @@ export class CarouselEventHandler implements EventHandler{
 	}
 
 	onImageClick(imgCtnr:HTMLElement) {
+		if(this.zoomer){
+			this.onZoomClosed();
+			return;
+		}
 		let carou = this.controls.carousel;
-		//saving scroll so when we unzoom we can re-establish it
-		this.scrollLeft = carou.scrollLeft;
 		// putting the scrollLeft to 0 so when we are zoomed the image is centered.
 		// Ultimately we shouldn't have to have to do that because we could rely on css, 
 		// but I didn't find a solution and this is an easy and clean fix
@@ -58,20 +57,25 @@ export class CarouselEventHandler implements EventHandler{
   onZoomClosed() {
 		this.zoomer = false;
 		// re-establishing scroll
-		this.controls.carousel.scrollLeft = this.scrollLeft;
+		//this.controls.carousel.scrollLeft = this.scrollLeft;
+		this.activeElement.scrollIntoView();
   }
 
 	private slide(dir){
 		if(dir >= 0){
 			let next = <HTMLElement> this.activeElement.nextElementSibling;
 			// we can't slide to an element that isn't there
-			if(next)
+			if(next){
+				// we also scroll the width of the elem so when we unzoom we
+				// get back to img
 				this.activeElement = next;
+			}
 		}
 		else{
 			let previous = <HTMLElement> this.activeElement.previousElementSibling
-			if(previous)
+			if(previous){
 				this.activeElement = previous;
+			}
 		}
 		this.refreshArrows();
 	}
@@ -120,8 +124,9 @@ export class CarouselEventHandler implements EventHandler{
 		if(this._activeElement)
 			this.replaceClass(this._activeElement, 'carousel-elem-active');
 		// for when we call the setter with undefined values
-		if(elem)
+		if(elem){
 			elem.className += " carousel-elem-active";
+		}
 		this._activeElement = elem;
 	}
 
@@ -138,7 +143,7 @@ export class CarouselEventHandler implements EventHandler{
 		else{
 			this.controls.closeDiv.style.display = "none";
 			this.replaceClass(ctnr, "zoomer");
-			this.activeElement = undefined;
+			// this.activeElement = undefined;
 		}
 		this._zoomer = bool;
 	}

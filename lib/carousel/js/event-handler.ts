@@ -7,5 +7,4 @@ export interface EventHandler{
 	onZoomClosed();
 	onArrowDown(direction: number);
 	onArrowUp(direction: number);
-	// onDrag(value:number);
 }

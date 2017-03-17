@@ -8,10 +8,20 @@
 import "../css/styles.scss";
 import { Carousel } from "../../lib/carousel/js/carousel";
 
-let config = {
-	images: [
-						{url: "http://www.planwallpaper.com/static/images/desktop-year-of-the-tiger-images-wallpaper.jpg"}
-					]
-	};
 let elem = document.getElementById('ctnr')
-new Carousel(elem, config);
+let images = [
+						"https://unsplash.it/450/450/?random",
+            "https://unsplash.it/400/400/?random",
+            "https://unsplash.it/300/300/?random",
+            "https://unsplash.it/400/?random",
+            "https://unsplash.it/600/?random",
+            "https://unsplash.it/500/?random",
+            "https://unsplash.it/550/?random",
+            "https://unsplash.it/450/?random",
+            "https://unsplash.it/700/?random",
+            "https://unsplash.it/250/?random",
+            "https://unsplash.it/350/?random"
+						];
+let carousel = new Carousel()
+								.createDefault(elem)
+								.load(images);
