@@ -27,12 +27,12 @@ export class Builder{
 	}
 
 	// here we can push an element in the carousel
-	pushItem(elem:HTMLElement){
+	pushItem(elem:HTMLElement):HTMLElement{
 		if(elem.className.indexOf("c-img") < 0)
 			elem.className += "c-img";
 		let itemCtnr = Builder.makeItemCtnr(elem);
 		this.carousel.appendChild(itemCtnr);
-
+		return itemCtnr;
 	}
 
 	pushItems(elems:HTMLCollectionOf<HTMLElement> | Array<HTMLElement>){
@@ -45,7 +45,12 @@ export class Builder{
 
 	// insert image url
 	insertItem(index:number, elem:HTMLElement){
-		this.items.splice(index, 0, elem);
+		if(elem.className.indexOf("c-img") < 0)
+			elem.className += "c-img";
+		let itemCtnr = Builder.makeItemCtnr(elem);
+		let after = this.carousel.children[index + 1]
+		this.carousel.insertBefore(elem, after);
+		return itemCtnr;
 	}
 
 

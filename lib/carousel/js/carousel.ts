@@ -1,3 +1,4 @@
+import { Events } from './events';
 import { EventEmitter } from './event-emitter';
 import { ILoader } from './interfaces/loader.interface';
 import { Loader } from './loader';
@@ -36,11 +37,11 @@ export class Carousel extends Builder implements Listener{
 	}
 	// we load item(s) then add it to the carousel
 	load(items:Array<any>){
-		
 		items.forEach(item => {
 			this.loader
 					.load(item)
-					.then(elem => this.pushItem(elem));
+					.then(elem => this.pushItem(elem))
+					.then(elem => this.listen({ type: Events.ITEM_ADDED, payload: elem }));
 		});
 		return this;
 	}

@@ -54,6 +54,7 @@ export class CarouselEventHandler implements EventHandler{
 		this.refreshArrows();
   }
 
+
   onZoomClosed() {
 		this.zoomer = false;
 		// re-establishing scroll
@@ -151,6 +152,10 @@ export class CarouselEventHandler implements EventHandler{
 	get zoomer(){
 		return this._zoomer;
 	}
+
+  public onElementAdded(item: HTMLElement) {
+    throw new Error('Not implemented yet.');
+  }
 }
 
 
