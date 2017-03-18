@@ -17,6 +17,7 @@ export class Carousel extends Builder implements IListener{
 	private handler: IEventHandler;
 	private emitter: IEventEmitter;
 	private loader: ILoader;
+	private index = 0;
 
 	constructor(){
 		super();
@@ -24,7 +25,7 @@ export class Carousel extends Builder implements IListener{
 	}
 
 	// creates the carousel
-	createDefault(wrapper:HTMLElement){
+	create(wrapper:HTMLElement){
 		if(! wrapper ) throw Error("A target element is required in create.");
 		this.makeCarousel(wrapper);
 		this.loader = new DefaultLoader();
@@ -36,16 +37,18 @@ export class Carousel extends Builder implements IListener{
 	}
 	// we load item(s) then add it to the carousel
 	load(items:Array<any>){
-		items.forEach(item => {
+		items.forEach((item) => {
+			let currIndex = this.index;
 			this.loader
 					.load(item)
-					.then(elem => this.pushItem(elem))
+					.then(elem => this.insertItem(currIndex, elem))
 					.then(elem => this.listen({ type: Events.ITEM_ADDED, payload: elem }));
+			this.index++;
 		});
 		return this;
 	}
 
-	listen(action: IAction) {
+	listen(action: IAction):void {
 		// this is weird but it's to allow to give custom mappers if needed
     this.handler[mapper[action.type]](action.payload);
   }

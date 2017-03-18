@@ -6,5 +6,4 @@ export class Utils{
 		return <HTMLElement> div.firstChild;
 	}
 
-
 }

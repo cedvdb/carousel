@@ -10,6 +10,7 @@ export class Builder{
 	private closeDiv:HTMLElement;
 	private arrows:NodeListOf<HTMLElement>;
 	private items: Array<HTMLElement> = [];
+	private elemList = [];
 
 
 	constructor(){
@@ -32,8 +33,9 @@ export class Builder{
 	pushItem(elem:HTMLElement):HTMLElement{
 		if(elem.className.indexOf("c-img") < 0)
 			elem.className += "c-img";
-		let itemCtnr = Builder.makeItemCtnr(elem);
+		let itemCtnr = this.makeItemCtnr(elem);
 		this.carousel.appendChild(itemCtnr);
+		this.elemList.push({index: this.elemList.length, elem})
 		return itemCtnr;
 	}
 
@@ -45,18 +47,35 @@ export class Builder{
 		}
 	}
 
-	// insert image url
+	// Todo : this is flawed
+	// insert
 	insertItem(index:number, elem:HTMLElement){
-		if(elem.className.indexOf("c-img") < 0)
-			elem.className += "c-img";
-		let itemCtnr = Builder.makeItemCtnr(elem);
-		let after = this.carousel.children[index + 1]
-		this.carousel.insertBefore(elem, after);
-		return itemCtnr;
+		if(index === 0 || index === this.items.length)
+			this.pushItem(elem);
+		let i = index;
+		let prevElem;
+		let arrLength = this.elemList.length;
+		// 0 should not happen (prev check)
+		while(this.elemList[i] === undefined && i < arrLength){
+			i++;
+		}
+		// if no elem after it
+		if(this.elemList[i] === undefined){
+			this.pushItem(elem);
+		}
+		// if elem found insert it
+		else{
+			if(elem.className.indexOf("c-img") < 0)
+				elem.className += "c-img";
+			let itemCtnr = this.makeItemCtnr(elem);
+			let after = this.elemList[i].elem;
+			this.carousel.insertBefore(elem, after);
+			this.elemList.splice(i, 0, {index, elem})
+		}
 	}
 
 
-	private static makeItemCtnr(elem:HTMLElement){
+	private makeItemCtnr(elem:HTMLElement){
 		let imgCtnr = Utils.stringToHtml(STRUCTURE_IMAGE_CTNR);
 		imgCtnr.appendChild(elem);
 		return imgCtnr;

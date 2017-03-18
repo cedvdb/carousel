@@ -1,0 +1,27 @@
+{
+  "name": "ts-carousel",
+  "version": "0.0.10",
+  "description": "Extensible javascript carousel",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cedvdb/carousel.git"
+  },
+  "keywords": [
+    "javascript",
+    "typescript",
+    "carousel"
+  ],
+  "author": "cedvdb",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cedvdb/carousel/issues"
+  },
+  "homepage": "https://github.com/cedvdb/carousel#readme"
+}
