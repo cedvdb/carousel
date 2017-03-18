@@ -9,8 +9,7 @@ export class Builder{
 	private structure:HTMLElement;
 	private closeDiv:HTMLElement;
 	private arrows:NodeListOf<HTMLElement>;
-	private items: Array<HTMLElement> = [];
-	private elemList = [];
+	private elemList:Array<HTMLElement> = [];
 
 
 	constructor(){
@@ -35,7 +34,7 @@ export class Builder{
 			elem.className += "c-img";
 		let itemCtnr = this.makeItemCtnr(elem);
 		this.carousel.appendChild(itemCtnr);
-		this.elemList.push({index: this.elemList.length, elem})
+		this.elemList.push(itemCtnr)
 		return itemCtnr;
 	}
 
@@ -47,31 +46,33 @@ export class Builder{
 		}
 	}
 
-	// Todo : this is flawed
-	// insert
+	// We isnert an element according to it's index
+	// this function is somewhat complex
+	//first we check if an element with an index higher than the 
+	// one we try to insert already exist (eg: the image data came back sooner
+	// from the request).
+	// Then if that element does not exist we append to the container
+	// if there is one we use insert before.
+	// then we add the element to the correct index
 	insertItem(index:number, elem:HTMLElement){
-		if(index === 0 || index === this.items.length)
-			this.pushItem(elem);
 		let i = index;
 		let prevElem;
+		let itemCtnr;
 		let arrLength = this.elemList.length;
-		// 0 should not happen (prev check)
+
 		while(this.elemList[i] === undefined && i < arrLength){
 			i++;
 		}
+		if(elem.className.indexOf("c-img") < 0)
+			elem.className += "c-img";
+		itemCtnr = this.makeItemCtnr(elem);
 		// if no elem after it
-		if(this.elemList[i] === undefined){
-			this.pushItem(elem);
-		}
-		// if elem found insert it
-		else{
-			if(elem.className.indexOf("c-img") < 0)
-				elem.className += "c-img";
-			let itemCtnr = this.makeItemCtnr(elem);
-			let after = this.elemList[i].elem;
-			this.carousel.insertBefore(elem, after);
-			this.elemList.splice(i, 0, {index, elem})
-		}
+		if(this.elemList[i] === undefined)
+			this.carousel.appendChild(itemCtnr);
+		else
+			this.carousel.insertBefore(itemCtnr, this.elemList[i]);
+		this.elemList[index] = itemCtnr;
+
 	}
 
 
